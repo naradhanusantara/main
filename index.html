@@ -1,68 +1,161 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wira - My Hub</title>
+    <title>Wira | Tech Hub</title>
+    <link id="favicon" rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1336/1336494.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #020617; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .glass { 
-            background: rgba(30, 41, 59, 0.7); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { mono: ['"Fira Code"', 'monospace'] },
+                    colors: {
+                        cyber: '#00ffcc', // Warna aksen cyan/hijau ala hacker
+                        darkBg: '#0a0f16', // Latar gelap pekat
+                        lightBg: '#f0f4f8'
+                    }
+                }
+            }
         }
-        .glass:hover { border-color: #0ea5e9; }
+    </script>
+    <style>
+        body { transition: background-color 0.3s, color 0.3s; }
+        
+        /* Animasi masuk */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+        
+        /* Glassmorphism & Neon Shadows */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .dark .glass-card:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3), inset 0 0 10px rgba(0, 255, 204, 0.1);
+            border-color: rgba(0, 255, 204, 0.4);
+        }
+        .light .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .light .glass-card:hover {
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            border-color: #00ffcc;
+        }
     </style>
 </head>
-<body class="flex flex-col items-center min-h-screen p-8">
+<body class="font-mono bg-lightBg text-gray-900 dark:bg-darkBg dark:text-gray-100 min-h-screen flex flex-col items-center py-12 px-4 selection:bg-cyber selection:text-black">
 
-    <div id="loading" class="mt-20">Memuat data...</div>
+    <button id="theme-toggle" class="absolute top-6 right-6 p-3 rounded-full glass-card hover:scale-110 transition-transform z-10">
+        <i id="theme-icon" class="fas fa-moon text-xl text-gray-800 dark:text-cyber"></i>
+    </button>
 
-    <div id="content" class="hidden w-full max-w-md text-center">
-        <div class="mb-10">
-            <img id="avatar" src="" class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-sky-500 p-1 object-cover shadow-2xl shadow-sky-500/20">
-            <h1 id="name" class="text-3xl font-extrabold tracking-tight"></h1>
-            <p id="bio" class="text-slate-400 mt-2"></p>
+    <div class="w-full max-w-2xl relative z-0">
+        
+        <div class="text-center mb-10 animate-fade" style="animation-delay: 0.1s;">
+            <div class="relative inline-block">
+                <img id="profile-img" src="" alt="Profile" class="w-28 h-28 rounded-full object-cover border-2 border-cyber p-1 mb-4 shadow-[0_0_15px_rgba(0,255,204,0.5)]">
+                <div class="absolute bottom-5 right-1 w-4 h-4 bg-green-500 border-2 border-darkBg rounded-full"></div>
+            </div>
+            <h1 id="profile-name" class="text-3xl font-bold tracking-tight mb-2 text-transparent bg-clip-text bg-gradient-to-r from-cyber to-blue-500"></h1>
+            <p id="profile-bio" class="text-sm text-gray-600 dark:text-gray-400 mb-4"></p>
+            
+            <div class="inline-block bg-black text-cyber text-xs px-4 py-2 rounded shadow-inner border border-gray-800">
+                <span class="text-green-500">root@wira:~$</span> <span id="profile-status" class="typing-effect"></span><span class="animate-pulse">_</span>
+            </div>
         </div>
 
-        <div id="links-container" class="space-y-4"></div>
+        <div id="links-container" class="space-y-4">
+            </div>
+
+        <div class="mt-12 text-center text-xs text-gray-500 dark:text-gray-500 animate-fade" style="animation-delay: 0.5s;">
+            <p>System Online &bull; Secure Connection</p>
+        </div>
     </div>
 
     <script>
-        // Pastikan nama file ini SAMA PERSIS dengan file di folder kamu
-        fetch('./data.json')
-            .then(res => {
-                if (!res.ok) throw new Error("Gagal ambil file data.json");
-                return res.json();
-            })
-            .then(data => {
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('content').classList.remove('hidden');
-                
-                document.getElementById('name').textContent = data.name;
-                document.getElementById('bio').textContent = data.bio;
-                document.getElementById('avatar').src = data.profile_pic;
+        // --- 1. LOGIKA DARK/LIGHT MODE ---
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
 
+        // Cek preferensi user sebelumnya
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            html.classList.remove('light');
+            themeIcon.className = 'fas fa-sun text-yellow-400 text-xl';
+        } else {
+            html.classList.add('light');
+            html.classList.remove('dark');
+            themeIcon.className = 'fas fa-moon text-gray-800 text-xl';
+        }
+
+        // Tombol ganti tema
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            html.classList.toggle('light');
+            
+            if (html.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+                themeIcon.className = 'fas fa-sun text-yellow-400 text-xl';
+            } else {
+                localStorage.theme = 'light';
+                themeIcon.className = 'fas fa-moon text-gray-800 text-xl';
+            }
+        });
+
+        // --- 2. LOGIKA AMBIL DATA DARI JSON ---
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                // Isi Profil
+                document.title = data.page_title;
+                document.getElementById('favicon').href = data.favicon;
+                document.getElementById('profile-img').src = data.profile.image;
+                document.getElementById('profile-name').textContent = data.profile.name;
+                document.getElementById('profile-bio').innerHTML = data.profile.bio;
+                document.getElementById('profile-status').textContent = data.profile.status_terminal;
+
+                // Isi Menu Links
                 const container = document.getElementById('links-container');
-                data.links.forEach(link => {
-                    container.innerHTML += `
-                        <a href="${link.url}" target="_blank" class="glass p-4 rounded-2xl flex items-center space-x-4 transition-all duration-300 transform hover:-translate-y-1 block text-left">
-                            <div class="bg-sky-500/10 p-2 rounded-lg">
-                                <img src="${link.icon}" class="w-8 h-8 object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1243/1243420.png'">
+                data.links.forEach((link, index) => {
+                    // Hitung delay animasi agar munculnya berurutan
+                    const delay = 0.2 + (index * 0.1); 
+                    
+                    const card = `
+                        <a href="${link.url}" target="_blank" class="glass-card group flex items-center p-4 rounded-xl transition-all duration-300 transform hover:-translate-y-1 animate-fade block relative overflow-hidden" style="animation-delay: ${delay}s;">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-cyber transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top"></div>
+                            
+                            <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-800 text-2xl group-hover:text-cyber transition-colors text-gray-700 dark:text-gray-300">
+                                <i class="${link.icon_class}"></i>
                             </div>
-                            <div class="flex-1">
-                                <h3 class="font-bold text-slate-100">${link.title}</h3>
-                                <p class="text-xs text-slate-400 uppercase tracking-wider">${link.desc}</p>
+                            
+                            <div class="ml-4 flex-1">
+                                <h2 class="text-lg font-bold group-hover:text-cyber transition-colors">${link.title}</h2>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">${link.description}</p>
+                            </div>
+                            
+                            <div class="ml-2 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 text-cyber">
+                                <i class="fas fa-chevron-right"></i>
                             </div>
                         </a>
                     `;
+                    container.innerHTML += card;
                 });
             })
-            .catch(err => {
-                document.getElementById('loading').innerHTML = `<span class="text-red-500 italic">Error: ${err.message}<br>Pastikan file 'data.json' ada di folder yang sama.</span>`;
-            });
+            .catch(error => console.error('Error memuat data.json:', error));
     </script>
 </body>
 </html>
