@@ -1,0 +1,19 @@
+{
+  "name": "Wira",
+  "bio": "Cybersecurity & Python Enthusiast",
+  "profile_pic": "https://avatars.githubusercontent.com/u/github",
+  "links": [
+    {
+      "title": "GitHub Profile",
+      "desc": "Koleksi Script Python & Tools",
+      "url": "https://github.com",
+      "icon": "https://cdn-icons-png.flaticon.com/512/25/25231.png"
+    },
+    {
+      "title": "Portfolio Web",
+      "desc": "Hasil Project Sekolah",
+      "url": "https://google.com",
+      "icon": "https://cdn-icons-png.flaticon.com/512/1006/1006771.png"
+    }
+  ]
+}
