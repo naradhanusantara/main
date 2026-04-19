@@ -1,19 +1,42 @@
 {
-  "name": "Wira",
-  "bio": "Cybersecurity & Python Enthusiast",
-  "profile_pic": "https://avatars.githubusercontent.com/u/github",
+  "page_title": "Wira | Portfolio Hub",
+  "favicon": "https://cdn-icons-png.flaticon.com/512/3261/3261304.png",
+  "profile": {
+    "name": "Wira",
+    "image": "https://avatars.githubusercontent.com/naradhanusantara",
+    "bio": "Cybersecurity Enthusiast | Python Automation | IoT Explorer",
+    "status_terminal": "./start_system.sh -v"
+  },
   "links": [
     {
-      "title": "GitHub Profile",
-      "desc": "Koleksi Script Python & Tools",
-      "url": "https://github.com",
-      "icon": "https://cdn-icons-png.flaticon.com/512/25/25231.png"
+      "title": "Network Security Notes",
+      "description": "Dokumentasi Penetration Testing & Linux Environment",
+      "url": "https://github.com/naradhanusantara",
+      "icon_class": "fas fa-shield-halved"
     },
     {
-      "title": "Portfolio Web",
-      "desc": "Hasil Project Sekolah",
-      "url": "https://google.com",
-      "icon": "https://cdn-icons-png.flaticon.com/512/1006/1006771.png"
+      "title": "Python & Bot Automation",
+      "description": "Script automasi Discord & pengelolaan server",
+      "url": "#",
+      "icon_class": "fab fa-python"
+    },
+    {
+      "title": "IoT & Hardware Projects",
+      "description": "Eksperimen mikrokontroler dan sistem tanam",
+      "url": "#",
+      "icon_class": "fas fa-microchip"
+    },
+    {
+      "title": "Terminal Config (Dotfiles)",
+      "description": "Setup kustomisasi desktop PC (Btrfs, GRUB theme)",
+      "url": "#",
+      "icon_class": "fas fa-terminal"
+    },
+    {
+      "title": "Photography Gallery",
+      "description": "Koleksi foto landscape & perspektif teknis",
+      "url": "#",
+      "icon_class": "fas fa-camera-retro"
     }
   ]
 }
